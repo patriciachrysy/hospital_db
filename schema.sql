@@ -22,7 +22,9 @@ CREATE TABLE invoices (
     total_amount decimal,
     generated_at timestamp,
     payed_at timestamp,
-    medical_history_id int REFERENCES medical_histories(id)
+    medical_history_id int,
+    CONSTRAINT fk_medical_history
+    FOREIGN KEY(medical_history_id) REFERENCES medical_histories(id) 
 );
 
 CREATE TABLE invoice_items (
@@ -30,12 +32,20 @@ CREATE TABLE invoice_items (
     unit_price decimal,
     quantity int,
     tottal_price decimal,
-    invoice_id int REFERENCES invoices(id),
-    treatment_id int REFERENCES treatments(id)
+    invoice_id int,
+    treatment_id int,
+    CONSTRAINT fk_invoices
+    FOREIGN KEY(invoice_id) REFERENCES invoices(id),
+    CONSTRAINT fk_treatment
+    FOREIGN KEY(treatment_id) REFERENCES treatments(id)
 );
 
 CREATE TABLE medical_histories_treatment (
     id SERIAL PRIMARY KEY,
-    medical_history_id INT REFERENCES medical_histories(id),
-    treatment_id INT REFERENCES treatments(id)
+    medical_history_id INT,
+    treatment_id INT,
+    CONSTRAINT fk_medical_history
+    FOREIGN KEY(medical_history_id) REFERENCES medical_histories(id),
+    CONSTRAINT fk_treatment
+    FOREIGN KEY(treatment_id) REFERENCES treatments(id)
 );
